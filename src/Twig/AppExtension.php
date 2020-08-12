@@ -9,21 +9,21 @@ use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('bookCover', [$this, 'getBookCover']),
         ];
     }
 
-    public function getBookCover(int $id)
+    public function getBookCover(int $id): string
     {
-        $projectDir = dirname(dirname(__DIR__));
+        $projectDir = dirname(__DIR__, 2);
 
         if (file_exists("$projectDir/public/assets/images/book-covers/$id.jpg")) {
             return "/assets/images/book-covers/$id.jpg";
-        } else {
-            return "/assets/images/book-covers/0.jpg";
         }
+
+        return "/assets/images/book-covers/0.jpg";
     }
 }

@@ -40,9 +40,7 @@ class AuthorController extends AbstractController
      */
     public function show(Author $author): Response
     {
-        return $this->render('author/show.html.twig', [
-            'author' => $author,
-        ]);
+        throw new Exception('Not implemented');
     }
 
     /**

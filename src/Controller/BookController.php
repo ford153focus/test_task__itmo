@@ -39,9 +39,7 @@ class BookController extends AbstractController
      */
     public function show(Book $book): Response
     {
-        return $this->render('book/show.html.twig', [
-            'book' => $book,
-        ]);
+        throw new Exception('Not implemented');
     }
 
     /**
@@ -52,7 +50,7 @@ class BookController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function newForm(string $errorMessage = '', AuthorRepository $authorRepository): Response
+    public function newForm(AuthorRepository $authorRepository, string $errorMessage = ''): Response
     {
         return $this->render('book/edit.html.twig', [
             'book'         => [],
@@ -86,14 +84,14 @@ class BookController extends AbstractController
             'isbn'  => $isbn,
         ]);
         if (!is_null($existingBook)) {
-            return $this->newForm('Такая книга уже существует');
+            return $this->newForm($authorRepository, 'Такая книга уже существует');
         }
         $existingBook = $repository->findOneBy([
             'title'               => $title,
             'year_of_publication' => $year_of_publication,
         ]);
         if (!is_null($existingBook)) {
-            return $this->newForm('Такая книга уже существует');
+            return $this->newForm($authorRepository, 'Такая книга уже существует');
         }
 
         $book = new Book();
@@ -127,7 +125,7 @@ class BookController extends AbstractController
                 imagejpeg($imageTmp, "$targetFolder/{$book->getId()}.jpg", 85);
                 imagedestroy($imageTmp);
             } else {
-                return $this->editForm($book, 'Повреждённый файл обложки', $authorRepository);
+                return $this->newForm($authorRepository, 'Повреждённый файл обложки');
             }
         }
 
@@ -143,7 +141,7 @@ class BookController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editForm(Book $book, string $errorMessage = '', AuthorRepository $authorRepository): Response
+    public function editForm(Book $book, AuthorRepository $authorRepository, string $errorMessage = ''): Response
     {
         $bookAuthorsIds = [];
         foreach ($book->getAuthors() as $author) {
@@ -183,14 +181,14 @@ class BookController extends AbstractController
             'isbn'  => $isbn,
         ]);
         if (!is_null($existingBook) && $existingBook->getId() !== $book->getId()) {
-            return $this->editForm($book, 'Такая книга уже существует', $authorRepository);
+            return $this->editForm($book, $authorRepository, 'Такая книга уже существует');
         }
         $existingBook = $repository->findOneBy([
             'title'               => $title,
             'year_of_publication' => $year_of_publication,
         ]);
         if (!is_null($existingBook) && $existingBook->getId() !== $book->getId()) {
-            return $this->editForm($book, 'Такая книга уже существует', $authorRepository);
+            return $this->editForm($book, $authorRepository, 'Такая книга уже существует');
         }
 
         $book->setTitle($title);
@@ -237,7 +235,7 @@ class BookController extends AbstractController
                 imagejpeg($imageTmp, "$targetFolder/{$book->getId()}.jpg", 85);
                 imagedestroy($imageTmp);
             } else {
-                return $this->editForm($book, 'Повреждённый файл обложки', $authorRepository);
+                return $this->editForm($book, $authorRepository, 'Повреждённый файл обложки');
             }
         }
 
@@ -259,12 +257,11 @@ class BookController extends AbstractController
 
     /**
      * @Route("/{id}/delete", name="book_delete", methods={"POST", "DELETE"})
-     * @param  \Symfony\Component\HttpFoundation\Request  $request
      * @param  \App\Entity\Book  $book
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function delete(Request $request, Book $book): Response
+    public function delete(Book $book): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($book);

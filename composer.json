@@ -1,4 +1,6 @@
 {
+    "name": "ford-rt/test_task_itmo",
+    "description": "Test task for ITMO",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -43,10 +45,8 @@
         "symfony/css-selector": "^4.4",
         "symfony/debug-bundle": "^4.4",
         "symfony/maker-bundle": "^1.20",
-        "symfony/monolog-bundle": "^3.0",
         "symfony/phpunit-bridge": "^5.1",
         "symfony/stopwatch": "^4.4",
-        "symfony/twig-bundle": "^4.4",
         "symfony/var-dumper": "^4.4",
         "symfony/web-profiler-bundle": "^4.4"
     },

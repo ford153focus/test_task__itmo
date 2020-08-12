@@ -1,0 +1,50 @@
+{% extends 'lor.tango.html.twig' %}
+
+{% block head_title %}List of authors{% endblock %}
+{% block title %}List of authors{% endblock %}
+
+{% block body %}
+    <div class="forum">
+        <table class="message-table">
+            <thead>
+            <tr>
+                <th>ФИО</th>
+                <th># книг</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for author in authors %}
+                <tr>
+                    <td>
+                        <a href="{{ path('author_show', {'id': author.id}) }}">
+                            {{ author.surname }} {{ author.name }} {{ author.patronymic }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ author.getBooks()|length }}
+                    </td>
+                        <td>
+                            <a href="{{ path('author_edit_form', {'id': author.id}) }}">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+
+                            <a href="{{ path('author_delete_form', {'id': author.id}) }}">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+        <nav>
+            <a href="{{ path('author_new_form') }}" class="btn btn-primary">Добавить</a>
+        </nav>
+
+{% endblock %}

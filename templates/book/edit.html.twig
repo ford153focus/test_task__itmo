@@ -1,0 +1,75 @@
+{% extends 'lor.tango.html.twig' %}
+
+{% block title %}{{ book ? 'Редактирование книги' : 'Добавить книгу' }}{% endblock %}
+{% block head_title %}{{ book ? 'Редактирование книги' : 'Добавить книгу' }}{% endblock %}
+
+{% block body %}
+    {% if errorMessage %}
+        <div class="alert alert-danger" role="alert">
+            {{ errorMessage }}
+        </div>
+    {% endif %}
+
+    <form id="messageForm" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="title" class="form-label">Название</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ book ? book.title : '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="year_of_publication" class="form-label">Год публикации</label>
+            <input type="text" class="form-control" id="year_of_publication" name="year_of_publication" value="{{ book ? book.yearOfPublication|date("Y") : '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="isbn" class="form-label">ISBN</label>
+            <input type="text" class="form-control" id="isbn" name="isbn" value="{{ book ? book.isbn : '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="pages_amount" class="form-label"># страниц</label>
+            <input type="text" class="form-control" id="pages_amount" name="pages_amount" value="{{ book ? book.pagesAmount : '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="authors" class="form-label">Авторы</label>
+            <select class="form-control js-authors-multiple" id="authors" name="authors[]" multiple="multiple" >
+                {% for author in allAuthors %}
+                    <option value="{{ author.id }}" {% if author.id in bookAuthorsIds %}selected{% endif %}>
+                        {{ author.surname }} {{ author.name }} {{ author.patronymic }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-2">
+                    <img id="book-cover" src="{{ book ? bookCover(book.id) : '/assets/images/book-covers/0.jpg' }}">
+                </div>
+                <div class="col-6">
+                    <label for="book-cover-input" class="form-label">Обложка</label>
+                    <input type="file" id="book-cover-input" name="book-cover-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary btn">Сохранить</button>
+            <a href="{{ path('books_list') }}" class="btn btn-danger" role="button" aria-pressed="true">Назад к списку</a>
+        </div>
+    </form>
+
+    <style>
+        #book-cover {
+            max-width: 256px;
+        }
+    </style>
+
+    <script defer="defer">
+        window.onload = function () {
+            jQuery('.js-authors-multiple').select2();
+            jQuery('.js-authors-multiple').val({{ bookAuthorsIds ? bookAuthorsIds|json_encode() : '' }});
+        }
+    </script>
+{% endblock %}

@@ -14,3 +14,11 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+/.*
+!/.env
+!/.env.test
+!/.gitignore
+/public_html/
+/public/assets/images/book-covers/*
+!/public/assets/images/book-covers/0.jpg

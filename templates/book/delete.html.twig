@@ -1,0 +1,12 @@
+{% extends 'lor.tango.html.twig' %}
+
+{% block head_title %}Удаление книги{% endblock %}
+{% block title %}Удаление книги "{{ book.title }}"{% endblock %}
+
+
+{% block body %}
+<form method="post" action="{{ path('book_delete', {'id': book.id}) }}"
+      onsubmit="return confirm('Вы уверены, что хотите удалить эту книгу?');">
+    <button class="btn btn-danger">Delete</button>
+</form>
+{% endblock %}

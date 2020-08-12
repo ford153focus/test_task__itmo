@@ -1,0 +1,57 @@
+{% extends 'lor.tango.html.twig' %}
+
+{% block title %}{{ author ? 'Редактирование автора' : 'Добавить автора' }}{% endblock %}
+{% block head_title %}{{ author ? 'Редактирование автора' : 'Добавить автора' }}{% endblock %}
+
+{% block body %}
+    {% if errorMessage %}
+        <div class="alert alert-danger" role="alert">
+            {{ errorMessage }}
+        </div>
+    {% endif %}
+
+    <form id="messageForm" method="POST" enctype="application/x-www-form-urlencoded">
+        <div class="control-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="surname" class="form-label">Фамилия</label>
+                    <input type="text" class="form-control" id="surname" name="surname" value="{{ author ? author.surname : '' }}">
+                </div>
+                <div class="col-md-4">
+                    <label for="name" class="form-label">Имя</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ author ? author.name : '' }}">
+                </div>
+                <div class="col-md-4">
+                    <label for="patronymic" class="form-label">Отчество</label>
+                    <input type="text" class="form-control" id="patronymic" name="patronymic" value="{{ author ? author.patronymic : '' }}">
+                </div>
+            </div>
+        </div>
+        {% if author %}
+            <div class="control-group">
+                {%  if author.getBooks()|length > 0 %}
+                    <p>Книги данного автора</p>
+                    <ul>
+                        {% for book in author.getBooks() %}
+                            <li>{{ book.title }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>За данным автором не числится ни одна книга</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary btn">Сохранить</button>
+            <a href="{{ path('authors_list') }}" class="btn btn-danger" role="button" aria-pressed="true">Назад к списку</a>
+        </div>
+    </form>
+
+    <style>
+        #messageForm input,
+        #messageForm textarea {
+            width: 150ch;
+        }
+    </style>
+{% endblock %}

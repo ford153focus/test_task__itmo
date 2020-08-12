@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang=ru>
+<head>
+    <title>{% block head_title %}Главная страница{% endblock %} - ITMO Test Task</title>
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="initial-scale=1.0">
+
+    <script type="text/javascript" async="async" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="//www.linux.org.ru/tango/combined.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script type="text/javascript" defer="defer" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script type="text/javascript" defer="defer" src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+
+    <!--[if lt IE 9]>
+    <script src="//www.linux.org.ru/webjars/html5shiv/3.7.2/html5shiv.min.js" type="text/javascript"></script>
+    <![endif]-->
+
+
+    <script type="text/javascript" defer="defer" src="//www.linux.org.ru/js/plugins.js"></script>
+    <script type="text/javascript" defer="defer" src="//www.linux.org.ru/js/highlight.pack.js"></script>
+    <script type="text/javascript" defer="defer">window.onload = function () { hljs.initHighlighting(); }</script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script type="text/javascript" defer="defer" src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+</head>
+<body data-no-jquery>
+<div id="hd">
+    <a id="sitetitle" href="/">ITMO Test Task</a>
+
+    <div class="menu">
+         <ul>
+             <li><a href="{{ path('authors_list') }}">Авторы</a></li>
+             <li><a href="{{ path('books_list') }}">Книги</a></li>
+         </ul>
+    </div>
+</div>
+<div style="clear: both"></div>
+<div id="bd">
+    <h1>{% block title %}Ford's Garage{% endblock %}</h1>
+    {% block body %}
+    {% endblock %}
+</div>
+<footer id="ft">
+    {% block footer %}
+    <p id="ft-info">
+        {# <a href="/about">О Сервере</a> #}
+    </p>
+    {% endblock %}
+</footer>
+</body>
+</html>
